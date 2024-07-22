@@ -1,0 +1,44 @@
+﻿@model PizzaServiceLoading.Models.PizzaView
+
+<h1>Order Pizza</h1>
+
+<form asp-action="Index" method="post" onsubmit="return validateForm()">
+    <div>
+        <label>Select Size</label>
+        <select asp-for="SizeId" asp-items="Model.Sizes">
+        </select>
+    </div>
+    <br />
+    <div>
+        <label>Select Base</label>
+        <select asp-for="BaseId" asp-items="Model.Bases">
+        </select>
+    </div>
+
+    <br />
+    <div class="form-group">
+        <label>Toppings</label>
+        @foreach (var topping in Model.Toppings)
+        {
+            <div class="form-check">
+                <input type="checkbox" class="topping-checkbox" name="ToppingIds" value="@topping.Value"
+                   @(Model.ToppingIds != null && Model.ToppingIds.Contains(int.Parse(topping.Value)) ? "checked" : "") />
+                <label>@topping.Text</label>
+            </div>
+        }
+    </div>
+    <br />
+    <button type="submit">Submit</button>
+
+</form>
+
+<script>
+    function validateForm() {
+        const checkboxes = document.querySelectorAll('.topping-checkbox:checked');
+        if (checkboxes.length > 3) {
+            alert('You can select up to 3 toppings only.');
+            return false;
+        }
+        return true;
+    }
+</script>

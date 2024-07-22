@@ -1,0 +1,44 @@
+﻿@{
+    var customers = ViewBag.Customers as List<PizzaServiceLoading.Models.Customer>;
+    var pizzaToppings = ViewBag.PizzaToppings as Dictionary<int, List<PizzaServiceLoading.Models.Toppings>>;
+    var pizzaDetails = ViewBag.PizzaDetails as Dictionary<int, (string Size, string Base)>;
+
+}
+
+<p>TOTAL PIZZAS ORDERED : @ViewBag.TotalPizzasOrdered</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Pizza Size</th>
+            <th>Pizza Base</th>
+            <th>Toppings</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in customers)
+        {
+            <tr>
+                <td>
+                    @pizzaDetails[customer.PizzaId].Size
+                </td>
+                <td>
+                    @pizzaDetails[customer.PizzaId].Base
+                </td>
+                <td>
+                    @if (pizzaToppings.ContainsKey(customer.PizzaId))
+                    {
+                        @foreach (var topping in pizzaToppings[customer.PizzaId])
+                        {
+                            <span>@topping.ToppingName</span>
+
+                            <br />
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
